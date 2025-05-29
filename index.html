@@ -338,7 +338,7 @@
     </div>
 
     <script>
-        // Base de datos de países con sus niveles
+       // Base de datos de países con sus niveles
         const countries = {
             // CONMEBOL (Sudamérica) - 5 clasificados
             'Brasil': 5, 'Argentina': 5, 'Uruguay': 4, 'Colombia': 4, 'Chile': 3,
@@ -724,4 +724,40 @@
                 <h3>Partido por el 3er Puesto</h3>
                 <div class="match">
                     <div class="match-teams">
-                        <span class="team-
+                        <span class="team-name">${third.team1}</span>
+                        <span class="score">${third.score1} - ${third.score2}</span>
+                        <span class="team-name">${third.team2}</span>
+                    </div>
+                    <div>🥉 ${third.winner}</div>
+                </div>
+            `;
+            content.innerHTML = html;
+        }
+        
+        function showPhase(phaseId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(phaseId).classList.add('active');
+            
+            document.querySelectorAll('.phase-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.phase-btn[onclick="showPhase('${phaseId}')"]`).classList.add('active');
+        }
+        
+        function startTournament() {
+            chosenChampion = document.getElementById('championSelect').value;
+            if (!chosenChampion) {
+                alert('Por favor, selecciona un equipo para comenzar la simulación.');
+                return;
+            }
+            
+            qualifyTeams(); // Ahora se llama después de que el campeón es elegido
+            showPhase('draw'); // Mover a la fase de sorteo después de elegir campeón
+            document.getElementById('drawContent').innerHTML = '<button class="draw-btn" onclick="performDraw()">🎲 Realizar Sorteo</button>'; // Reset draw content
+        }
+
+        // Add this line to call the function when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', initializeChampionSelector);
+    </script>
